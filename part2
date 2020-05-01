@@ -1,0 +1,54 @@
+#include <iostream> 
+#include <fstream> 
+#include <string> 
+
+using namespace std; 
+
+int main() { 
+    ifstream streamtwo; 
+    streamtwo.open("ignoreWords.txt"); 
+    string ignore[50]; 
+    string keep[100000];
+    string in_file; 
+    string out_file; 
+    ifstream testFile; 
+    testFile.open("testText.txt");
+    int n=0;
+    ifstream newFile; 
+    newFile.open("cleanedText.txt");
+
+    int number_ignore = 0; 
+    int number_keep = 0; 
+
+    if (!streamtwo.is_open()){
+        cout << "there was an error opening the file. " << endl; 
+        return 0; 
+    }
+    while(!streamtwo.eof())
+    {
+        streamtwo >> ignore[number_ignore];
+        number_ignore++; 
+   }
+    streamtwo.close();
+    cout<<"Please enter the original file name: "; 
+    cin>> in_file; 
+
+    streamtwo.open(in_file.c_str()); 
+    if(!streamtwo.is_open()){
+        cout << "There was an error finding the file."<<endl; 
+        return 0; 
+    }
+    string new_word ;
+    while(streamtwo>>new_word)
+    keep[n++]= new_word;
+    while (testFile >> new_word)
+    {
+        int index= -1; 
+        for (int i=0; i< n; i++)
+            if (new_word == keep[i])
+            index=i; 
+        if (index== -1)
+        newFile << new_word << " ";
+    }
+    return 0; 
+}
